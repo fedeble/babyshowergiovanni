@@ -2,55 +2,53 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Map, { type MapLocation } from "./Map";
+import { invitationConfig } from "@/lib/invitation-config";
 
-const eventLocation: MapLocation = {
-  latitude: 0,
-  longitude: 0,
-  label: "Ubicación por definir (placeholder)",
-};
-
-const eventDetails = [
-  { label: "Fecha", value: "Fecha por definir (placeholder)" },
-  { label: "Hora", value: "Hora por definir (placeholder)" },
-  { label: "Lugar", value: "Lugar por definir (placeholder)" },
-  { label: "Dirección", value: "Dirección por definir (placeholder)" },
-];
+const eventLocation: MapLocation = invitationConfig.event.location;
+const directionsUrl = eventLocation.latitude !== null && eventLocation.longitude !== null
+  ? `https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`
+  : undefined;
 
 export default function Event() {
   const reduceMotion = useReducedMotion();
+  const shouldAnimate = reduceMotion === false;
 
   return (
     <section className="section-shell section-sage" aria-labelledby="event-title">
       <motion.div
         className="content-container section-space event-content"
-        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        initial={shouldAnimate ? { opacity: 0, y: 28 } : false}
+        whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
         viewport={{ once: true, amount: 0.2 }}
-        transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: "easeOut" }}
+        transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
         <div className="text-center">
-          <p className="eyebrow">Un día para celebrar</p>
-          <h2 id="event-title" className="section-title">El evento</h2>
+          <p className="eyebrow">{invitationConfig.event.sectionLabel}</p>
+          <h2 id="event-title" className="section-title">{invitationConfig.event.title}</h2>
         </div>
 
         <div className="event-panel mt-10">
           <dl className="event-details">
-            {eventDetails.map((detail) => (
+            {invitationConfig.event.details.map((detail) => (
               <div className="event-detail" key={detail.label}>
-                <dt>{detail.label}</dt>
-                <dd>{detail.value}</dd>
+                <dt>
+                  <span className={`event-detail-icon event-detail-icon-${detail.icon}`} aria-hidden="true" />
+                  {detail.label}
+                </dt>
+                <dd>{detail.value ?? "A confirmar"}</dd>
               </div>
             ))}
           </dl>
           <Map location={eventLocation} />
           <a
-            className="directions-button"
-            href={`https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Cómo llegar (enlace placeholder)"
+            className={`directions-button${directionsUrl ? "" : " directions-button-disabled"}`}
+            href={directionsUrl}
+            target={directionsUrl ? "_blank" : undefined}
+            rel={directionsUrl ? "noreferrer" : undefined}
+            aria-label={`${invitationConfig.event.directionsLabel} a ${eventLocation.label}`}
+            aria-disabled={directionsUrl ? undefined : true}
           >
-            Cómo llegar
+            {invitationConfig.event.directionsLabel}
           </a>
         </div>
       </motion.div>

@@ -1,6 +1,6 @@
 export type MapLocation = {
-  latitude: number;
-  longitude: number;
+  latitude: number | null;
+  longitude: number | null;
   label: string;
 };
 
@@ -10,6 +10,17 @@ type MapProps = {
 
 export default function Map({ location }: MapProps) {
   const { latitude, longitude, label } = location;
+  const hasCoordinates = latitude !== null && longitude !== null;
+
+  if (!hasCoordinates) {
+    return (
+      <div className="event-map-frame event-map-pending" role="status">
+        <span className="event-map-pending-mark" aria-hidden="true" />
+        <span>{label}</span>
+      </div>
+    );
+  }
+
   const offset = 0.025;
   const bbox = [
     longitude - offset,
