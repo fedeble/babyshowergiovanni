@@ -54,6 +54,12 @@ Correcciones de seguridad de `20260903060000_security_hardening.sql`:
 - valida ownership dentro de la RPC de anulación;
 - restringe imágenes administrativas a URLs HTTPS y limita textos almacenados.
 
+### Datos reales de la invitación
+
+La migración `20260903070000_seed_giovanni_invitation.sql` actualiza o crea un único evento público para Giovanni, con fecha `2026-09-19`, hora `15:00`, dirección, coordenadas, enlace de Google Maps, nombres de los padres y mensajes definitivos. También carga los regalos con cantidades confirmadas, sin imágenes.
+
+Los regalos `Bolso maternal`, `Bañera`, `Coche`, `Butaca` y `Extractor de leche` quedan marcados como no disponibles mediante `is_available = false`, sin crear reservas artificiales ni aumentar `reserved_quantity`. `Toallitas húmedas` y `Ropa recién nacido` se cargan con 6 unidades cada uno; la migración nunca elimina ni reduce reservas existentes.
+
 ### Prueba funcional de reservas
 
 Con las tres variables de `.env.example` cargadas en el entorno, ejecutá `npm run test:reservations`. La service role se usa exclusivamente para crear y limpiar datos temporales de prueba; nunca debe exponerse al navegador.

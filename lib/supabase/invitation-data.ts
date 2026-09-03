@@ -26,6 +26,7 @@ type GiftRow = {
   image: string | null;
   quantity: number;
   reserved_quantity: number;
+  is_available: boolean;
 };
 
 export type EventData = {
@@ -70,16 +71,14 @@ function mapEvent(event: EventRow): EventData {
 }
 
 function mapGifts(gifts: GiftRow[]): InvitationGift[] {
-  return gifts.map((gift, index) => ({
+  return gifts.map((gift) => ({
     id: gift.id,
     name: gift.name,
     description: gift.description ?? "",
-    imageUrl:
-      gift.image ??
-      invitationConfig.gifts.items[index]?.imageUrl ??
-      invitationConfig.gifts.items[0].imageUrl,
+    imageUrl: gift.image ?? "",
     totalQuantity: gift.quantity,
     availableQuantity: Math.max(0, gift.quantity - gift.reserved_quantity),
+    isAvailable: gift.is_available,
   }));
 }
 
@@ -103,7 +102,7 @@ export async function getInvitationData(): Promise<InvitationData> {
 
     const { data: gifts, error: giftsError } = await supabase
       .from("gifts")
-      .select("id,name,description,image,quantity,reserved_quantity")
+      .select("id,name,description,image,quantity,reserved_quantity,is_available")
       .eq("event_id", event.id)
       .returns<GiftRow[]>();
 

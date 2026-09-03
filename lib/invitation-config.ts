@@ -19,6 +19,7 @@ export type InvitationGift = {
   imageUrl: string;
   totalQuantity: number | null;
   availableQuantity: number | null;
+  isAvailable: boolean;
 };
 
 export type InvitationEventDetail = {
@@ -30,18 +31,18 @@ export type InvitationEventDetail = {
 export const invitationConfig = {
   babyName: "Giovanni",
   title: "Baby Shower",
-  welcomeText: "Una celebración especial para dar la bienvenida a Giovanni.",
+  welcomeText: "¡Estamos felices de compartir este momento tan especial!",
   coverImage: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1800&q=85", // Imagen temática temporal; reemplazar por la portada definitiva.
   parents: [
     {
-      name: null, // PENDIENTE: nombre definitivo de mamá.
+      name: "Celeste",
       role: "Mamá",
       description: null, // PENDIENTE: texto de presentación de mamá.
       imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85", // Fotografía temporal; reemplazar por la definitiva.
       imageClass: "parent-photo-mom",
     },
     {
-      name: null, // PENDIENTE: nombre definitivo de papá.
+      name: "Jesús",
       role: "Papá",
       description: null, // PENDIENTE: texto de presentación de papá.
       imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85", // Fotografía temporal; reemplazar por la definitiva.
@@ -53,16 +54,17 @@ export const invitationConfig = {
     sectionLabel: "Un día para celebrar",
     title: "El evento",
     details: [
-      { label: "Fecha", value: null, icon: "calendar" }, // PENDIENTE: fecha definitiva.
-      { label: "Hora", value: null, icon: "clock" }, // PENDIENTE: hora definitiva.
-      { label: "Lugar", value: null, icon: "place" }, // PENDIENTE: nombre definitivo del lugar.
-      { label: "Dirección", value: null, icon: "address" }, // PENDIENTE: dirección definitiva.
+      { label: "Fecha", value: "19 de septiembre de 2026", icon: "calendar" },
+      { label: "Hora", value: "15:00 hs", icon: "clock" },
+      { label: "Lugar", value: null, icon: "place" },
+      { label: "Dirección", value: "Albert Einstein 7780", icon: "address" },
     ] satisfies InvitationEventDetail[],
     directionsLabel: "Cómo llegar",
+    googleMapsUrl: "https://maps.app.goo.gl/RrcTa6ANHCEikXt49",
     location: {
-      latitude: null, // PENDIENTE: latitud real del evento.
-      longitude: null, // PENDIENTE: longitud real del evento.
-      label: "Ubicación del evento",
+      latitude: -34.44681074662121,
+      longitude: -58.802460437204395,
+      label: "Albert Einstein 7780",
     } satisfies InvitationLocation,
   },
   gifts: {
@@ -82,34 +84,42 @@ export const invitationConfig = {
       genericErrorMessage: "No pudimos completar la reserva. Intentá nuevamente.",
     },
     items: [
-    {
-      id: "gift-blanket",
-      name: "Manta de bebé",
-      description: "Una manta suave para acompañar los primeros días de Giovanni.",
-      imageUrl: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=85",
-      totalQuantity: 2,
-      availableQuantity: 2,
-    },
-    {
-      id: "gift-bottle",
-      name: "Set de biberones",
-      description: "Un set práctico para las rutinas de alimentación del bebé.",
-      imageUrl: "https://images.unsplash.com/photo-1604917621956-10dfa7cce2e7?auto=format&fit=crop&w=900&q=85",
-      totalQuantity: 3,
-      availableQuantity: 1,
-    },
-    {
-      id: "gift-basket",
-      name: "Canasta de cuidados",
-      description: "Detalles esenciales para el cuidado diario de Giovanni.",
-      imageUrl: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=900&q=85",
-      totalQuantity: 1,
-      availableQuantity: 0,
-    },
+      { id: "diapers", name: "Pañales P, M en adelante", description: "Paquetes para acompañar el crecimiento de Giovanni.", imageUrl: "", totalQuantity: 20, availableQuantity: 20, isAvailable: true },
+      { id: "calcareous-oil", name: "Óleo calcario", description: "Unidades para el cuidado diario del bebé.", imageUrl: "", totalQuantity: 7, availableQuantity: 7, isAvailable: true },
+      { id: "cotton", name: "Algodón", description: "Paquetes para el cuidado diario del bebé.", imageUrl: "", totalQuantity: 10, availableQuantity: 10, isAvailable: true },
+      { id: "wet-wipes", name: "Toallitas húmedas", description: "Paquetes para la higiene diaria del bebé.", imageUrl: "", totalQuantity: 6, availableQuantity: 6, isAvailable: true },
+      { id: "newborn-clothes", name: "Ropa recién nacido", description: "Prendas para acompañar los primeros días de Giovanni.", imageUrl: "", totalQuantity: 6, availableQuantity: 6, isAvailable: true },
+      { id: "muslin-blankets", name: "Mantitas de muselina o algodón", description: "Mantitas suaves para Giovanni.", imageUrl: "", totalQuantity: 4, availableQuantity: 4, isAvailable: true },
+      { id: "towels", name: "Toallas", description: "Toallas para el cuidado del bebé.", imageUrl: "", totalQuantity: 4, availableQuantity: 4, isAvailable: true },
+      { id: "bib", name: "Baberos", description: "Baberos para las comidas de Giovanni.", imageUrl: "", totalQuantity: 5, availableQuantity: 5, isAvailable: true },
+      { id: "nursing-pillow", name: "Almohadón de lactancia", description: "Un almohadón para acompañar la lactancia.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "baby-monitor", name: "Baby call - monitor", description: "Un monitor para acompañar el descanso del bebé.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "bottle-warmer", name: "Calienta mamadera", description: "Un equipo para templar la mamadera.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "sheets", name: "Sábanas", description: "Sábanas para la cuna de Giovanni.", imageUrl: "", totalQuantity: 4, availableQuantity: 4, isAvailable: true },
+      { id: "blankets", name: "Frazadas", description: "Frazadas para mantener abrigado al bebé.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "pacifiers", name: "Chupetes", description: "Chupetes para Giovanni.", imageUrl: "", totalQuantity: 4, availableQuantity: 4, isAvailable: true },
+      { id: "bottles", name: "Mamaderas", description: "Mamaderas para la alimentación del bebé.", imageUrl: "", totalQuantity: 2, availableQuantity: 2, isAvailable: true },
+      { id: "socks", name: "Medias", description: "Medias suaves para Giovanni.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "shampoo", name: "Shampoo", description: "Unidades para el baño del bebé.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "conditioner", name: "Acondicionador", description: "Unidades para el cuidado del bebé.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "liquid-soap", name: "Jabón líquido", description: "Unidades para la higiene de Giovanni.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "mittens", name: "Manoplas", description: "Manoplas suaves para el bebé.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "baby-oil", name: "Aceite para bebé", description: "Una unidad para el cuidado de la piel.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "baby-perfume", name: "Perfume de bebé", description: "Perfumes suaves para Giovanni.", imageUrl: "", totalQuantity: 2, availableQuantity: 2, isAvailable: true },
+      { id: "baby-powder", name: "Talco", description: "Talco para el cuidado del bebé.", imageUrl: "", totalQuantity: 2, availableQuantity: 2, isAvailable: true },
+      { id: "electric-rocker", name: "Mecedor eléctrico", description: "Un espacio de descanso para Giovanni.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "teether", name: "Mordedores", description: "Mordedores para acompañar su crecimiento.", imageUrl: "", totalQuantity: 3, availableQuantity: 3, isAvailable: true },
+      { id: "play-gym", name: "Gimnasio", description: "Un gimnasio de juegos para el bebé.", imageUrl: "", totalQuantity: 1, availableQuantity: 1, isAvailable: true },
+      { id: "toys", name: "Juguetes", description: "Juguetes para acompañar sus primeros juegos.", imageUrl: "", totalQuantity: 5, availableQuantity: 5, isAvailable: true },
+      { id: "maternity-bag", name: "Bolso maternal", description: "Este regalo ya está cubierto.", imageUrl: "", totalQuantity: 1, availableQuantity: 0, isAvailable: false },
+      { id: "baby-bath", name: "Bañera", description: "Este regalo ya está cubierto.", imageUrl: "", totalQuantity: 1, availableQuantity: 0, isAvailable: false },
+      { id: "stroller", name: "Coche", description: "Este regalo ya está cubierto.", imageUrl: "", totalQuantity: 1, availableQuantity: 0, isAvailable: false },
+      { id: "car-seat", name: "Butaca", description: "Este regalo ya está cubierto.", imageUrl: "", totalQuantity: 1, availableQuantity: 0, isAvailable: false },
+      { id: "breast-pump", name: "Extractor de leche", description: "Este regalo ya está cubierto.", imageUrl: "", totalQuantity: 1, availableQuantity: 0, isAvailable: false },
     ] satisfies InvitationGift[],
   },
   footer: {
-    message: "Gracias por acompañarnos",
+    message: "¡Gracias por acompañarnos!",
     name: "Giovanni",
   },
 } as const;

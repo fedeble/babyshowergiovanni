@@ -53,8 +53,8 @@ export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps)
   const progress = reservedQuantity !== null && gift.totalQuantity !== null && gift.totalQuantity > 0
     ? Math.round((reservedQuantity / gift.totalQuantity) * 100)
     : null;
-  const status = getStatus(gift.totalQuantity, gift.availableQuantity);
-  const isAvailable = canReserve && gift.availableQuantity !== null && gift.availableQuantity > 0;
+  const status = gift.isAvailable ? getStatus(gift.totalQuantity, gift.availableQuantity) : "Agotado";
+  const isAvailable = canReserve && gift.isAvailable && gift.availableQuantity !== null && gift.availableQuantity > 0;
   const reservationCopy = invitationConfig.gifts.reservation;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {

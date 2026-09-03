@@ -44,6 +44,7 @@ export type Database = {
           image: string | null;
           quantity: number;
           reserved_quantity: number;
+          is_available: boolean;
           created_at: string;
         };
         Insert: {
@@ -54,6 +55,7 @@ export type Database = {
           image?: string | null;
           quantity: number;
           reserved_quantity?: number;
+          is_available?: boolean;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["gifts"]["Insert"]>;
