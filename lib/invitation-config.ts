@@ -113,6 +113,7 @@ export const invitationConfig = {
   },
   footer: {
     message: "¡Gracias por acompañarnos!",
-    name: "Giovanni",
+    reservationNote: "(Los regalos se reservan al marcarlos)",
+    teddyImageUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/footer/teddy.png`,
   },
 } as const;

@@ -10,19 +10,27 @@ export default function Footer() {
   return (
     <footer className="section-shell footer-section" aria-labelledby="footer-title">
       <motion.div
-        className="content-container footer-content"
+        className="footer-reservation-note"
         initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
         whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
         viewport={{ once: true, amount: 0.35 }}
         transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
-        <div className="footer-ornament" aria-hidden="true">
-          <span />
-          <span className="footer-ornament-center" />
-          <span />
-        </div>
-        <p id="footer-title" className="display-copy">{invitationConfig.footer.message}</p>
-        <p className="footer-name">{invitationConfig.footer.name}</p>
+        {invitationConfig.footer.reservationNote}
+      </motion.div>
+      <motion.div
+        className="footer-content"
+        initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
+        whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={shouldAnimate ? { duration: 0.7, ease: "easeOut", delay: 0.1 } : { duration: 0 }}
+      >
+        {invitationConfig.footer.teddyImageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element -- Decorative image is served from the configured public Storage URL.
+          <img className="footer-teddy" src={invitationConfig.footer.teddyImageUrl} alt="" />
+        )}
+        <p id="footer-title" className="footer-message">{invitationConfig.footer.message}</p>
+        <span className="footer-heart" aria-hidden="true" />
       </motion.div>
     </footer>
   );

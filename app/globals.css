@@ -181,7 +181,7 @@ iframe {
 .parents-photo,
 .baby-photo {
   display: block;
-  width: min(100%, 26rem);
+  width: min(100%, 28.6rem);
   height: auto;
   margin-inline: auto;
 }
@@ -576,53 +576,80 @@ iframe {
 }
 
 .footer-section {
-  background: radial-gradient(circle at 50% 0%, var(--ivory) 0, var(--cream) 48%);
-  border-top: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
+  overflow: visible;
+  background: var(--ivory);
 }
 
 .footer-content {
   display: flex;
-  min-height: 20rem;
+  position: relative;
+  min-height: 15rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-block: 5.5rem;
+  padding: 4.5rem 1.5rem 3.75rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+  background: var(--sage-deep);
   text-align: center;
 }
 
-.footer-ornament {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1.75rem;
+.footer-reservation-note {
+  padding: 2.5rem 1.25rem 2rem;
+  background: var(--ivory);
+  color: var(--sage-deep);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
-.footer-ornament span {
+.footer-teddy {
   display: block;
-  width: 2.25rem;
-  height: 1px;
-  background: var(--gold);
+  position: absolute;
+  bottom: calc(100% - 1.5rem);
+  left: 50%;
+  width: clamp(6.5rem, 20vw, 9rem);
+  height: auto;
+  transform: translateX(-50%);
 }
 
-.footer-ornament .footer-ornament-center {
-  width: 0.45rem;
-  height: 0.45rem;
+.footer-message {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--ivory);
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.35rem, 9vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.footer-heart {
+  position: relative;
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 1.6rem;
+  background: var(--ivory);
   transform: rotate(45deg);
 }
 
-.footer-name {
-  overflow-wrap: anywhere;
-  margin-top: 1rem;
-  color: var(--sage-deep);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+.footer-heart::before,
+.footer-heart::after {
+  position: absolute;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--ivory);
+  content: "";
 }
 
-.footer-content .display-copy {
-  max-width: 20rem;
-  overflow-wrap: anywhere;
+.footer-heart::before {
+  top: -0.275rem;
+  left: 0;
+}
+
+.footer-heart::after {
+  top: 0;
+  left: -0.275rem;
 }
 
 .gifts-content {
@@ -877,7 +904,7 @@ iframe {
 
   .parents-photo,
   .baby-photo {
-    width: min(100%, 30rem);
+    width: min(100%, 33rem);
   }
 
   .parents-copy,
@@ -904,12 +931,8 @@ iframe {
   }
 
   .footer-content {
-    min-height: 22rem;
-    padding-block: 6rem;
-  }
-
-  .footer-ornament span {
-    width: 3rem;
+    min-height: 17rem;
+    padding-block: 5rem 4.25rem;
   }
 
   .hero-section {
