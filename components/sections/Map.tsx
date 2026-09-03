@@ -1,43 +1,30 @@
 export type MapLocation = {
-  latitude: number | null;
-  longitude: number | null;
   label: string;
 };
 
 type MapProps = {
   location: MapLocation;
+  imageUrl: string;
 };
 
-export default function Map({ location }: MapProps) {
-  const { latitude, longitude, label } = location;
-  const hasCoordinates = latitude !== null && longitude !== null;
-
-  if (!hasCoordinates) {
+export default function Map({ location, imageUrl }: MapProps) {
+  if (!imageUrl) {
     return (
       <div className="event-map-frame event-map-pending" role="status">
         <span className="event-map-pending-mark" aria-hidden="true" />
-        <span>{label}</span>
+        <span>Mapa próximamente</span>
       </div>
     );
   }
 
-  const offset = 0.025;
-  const bbox = [
-    longitude - offset,
-    latitude - offset,
-    longitude + offset,
-    latitude + offset,
-  ].join(",");
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
-
   return (
     <div className="event-map-frame">
-      <iframe
+      {/* eslint-disable-next-line @next/next/no-img-element -- Static map is served directly from the configured public Storage URL. */}
+      <img
         className="event-map"
-        src={mapUrl}
-        title={`Mapa de ${label}`}
+        src={imageUrl}
+        alt={`Mapa de ${location.label}`}
         loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
       />
     </div>
   );

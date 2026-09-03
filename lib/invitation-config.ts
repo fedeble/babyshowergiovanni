@@ -4,12 +4,11 @@ export type InvitationLocation = {
   label: string;
 };
 
-export type InvitationParent = {
-  name: string | null;
-  role: string;
-  description: string | null;
+export type InvitationParents = {
+  title: string;
+  introduction: string;
+  closing: string;
   imageUrl: string;
-  imageClass: "parent-photo-mom" | "parent-photo-dad";
 };
 
 export type InvitationGift = {
@@ -32,35 +31,29 @@ export const invitationConfig = {
   babyName: "Giovanni",
   title: "Baby Shower",
   welcomeText: "¡Estamos felices de compartir este momento tan especial!",
-  coverImage: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1800&q=85", // Imagen temática temporal; reemplazar por la portada definitiva.
-  parents: [
-    {
-      name: "Celeste",
-      role: "Mamá",
-      description: null, // PENDIENTE: texto de presentación de mamá.
-      imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85", // Fotografía temporal; reemplazar por la definitiva.
-      imageClass: "parent-photo-mom",
-    },
-    {
-      name: "Jesús",
-      role: "Papá",
-      description: null, // PENDIENTE: texto de presentación de papá.
-      imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85", // Fotografía temporal; reemplazar por la definitiva.
-      imageClass: "parent-photo-dad",
-    },
-  ] satisfies InvitationParent[],
-  parentsSectionLabel: "Con mucho amor",
+  coverImage: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/hero/portada.png`,
+  parents: {
+    title: "Los papás",
+    introduction: "Con mucha ilusión y amor, te invitamos a celebrar la llegada de nuestro bebé.",
+    closing: "Tu presencia hará este día aún más inolvidable.",
+    imageUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/parents/jesus-celeste.png`,
+  } satisfies InvitationParents,
+  baby: {
+    title: "Giovanni",
+    introduction: "Muy pronto llegará Giovanni para llenarnos la vida de amor, risas y nuevos sueños.",
+    closing: "¡No podemos esperar para conocerlo!",
+    imageUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/parents/giovanni.png`,
+  } satisfies InvitationParents,
   event: {
-    sectionLabel: "Un día para celebrar",
-    title: "El evento",
+    title: "¿Cuándo y dónde?",
     details: [
-      { label: "Fecha", value: "19 de septiembre de 2026", icon: "calendar" },
+      { label: "Fecha", value: "Sábado 19 de septiembre de 2026", icon: "calendar" },
       { label: "Hora", value: "15:00 hs", icon: "clock" },
-      { label: "Lugar", value: null, icon: "place" },
-      { label: "Dirección", value: "Albert Einstein 7780", icon: "address" },
+      { label: "Lugar", value: "Albert Einstein 7780", icon: "place" },
     ] satisfies InvitationEventDetail[],
     directionsLabel: "Cómo llegar",
     googleMapsUrl: "https://maps.app.goo.gl/RrcTa6ANHCEikXt49",
+    mapImageUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/map/ubicacion.png`,
     location: {
       latitude: -34.44681074662121,
       longitude: -58.802460437204395,

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Hero from "@/components/sections/Hero";
+import Baby from "@/components/sections/Baby";
 import Parents from "@/components/sections/Parents";
 import Event from "@/components/sections/Event";
 import GiftList from "@/components/gifts/GiftList";
@@ -23,6 +24,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
+
+      <Baby />
 
       <Parents />
 

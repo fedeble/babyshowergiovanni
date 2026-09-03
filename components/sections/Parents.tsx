@@ -16,24 +16,29 @@ export default function Parents() {
         viewport={{ once: true, amount: 0.2 }}
         transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
-        <div className="text-center">
-          <p className="eyebrow">{invitationConfig.parentsSectionLabel}</p>
-          <h2 id="parents-title" className="section-title">Sus padres</h2>
-        </div>
+        <div className="parents-layout">
+          <div className="parents-photo-wrap">
+            <div
+              className="parents-photo"
+              role="img"
+              aria-label="Fotografía de Jesús y Celeste"
+              style={{ backgroundImage: `url(${invitationConfig.parents.imageUrl})` }}
+            />
+            <span className="parents-tape" aria-hidden="true" />
+            <span className="parents-sprig" aria-hidden="true" />
+            <span className="parents-heart" aria-hidden="true" />
+          </div>
 
-        <div className="parents-grid mt-10">
-          {invitationConfig.parents.map((parent) => (
-            <article className="parent-card" key={parent.role}>
-              <div
-                className={`parent-photo ${parent.imageClass}`}
-                role="img"
-                aria-label={`Fotografía de ${parent.name ?? parent.role}`}
-                style={{ backgroundImage: `url(${parent.imageUrl})` }}
-              />
-              <h3 className="parent-name">{parent.name ?? parent.role}</h3>
-              {parent.description && <p className="parent-description">{parent.description}</p>}
-            </article>
-          ))}
+          <div className="parents-copy">
+            <h2 id="parents-title" className="section-title">{invitationConfig.parents.title}</h2>
+            <div className="parents-ornament" aria-hidden="true">
+              <span />
+              <i />
+              <span />
+            </div>
+            <p>{invitationConfig.parents.introduction}</p>
+            <p>{invitationConfig.parents.closing}</p>
+          </div>
         </div>
       </motion.div>
     </section>

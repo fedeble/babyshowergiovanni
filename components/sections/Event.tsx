@@ -14,9 +14,7 @@ export default function Event({ data }: EventProps) {
   const shouldAnimate = reduceMotion === false;
   const eventDetails = data?.details ?? invitationConfig.event.details;
   const eventLocation: MapLocation = data?.location ?? invitationConfig.event.location;
-  const directionsUrl = eventLocation.latitude !== null && eventLocation.longitude !== null
-    ? `https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`
-    : undefined;
+  const directionsUrl = invitationConfig.event.googleMapsUrl;
 
   return (
     <section className="section-shell section-sage" aria-labelledby="event-title">
@@ -27,34 +25,37 @@ export default function Event({ data }: EventProps) {
         viewport={{ once: true, amount: 0.2 }}
         transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
-        <div className="text-center">
-          <p className="eyebrow">{invitationConfig.event.sectionLabel}</p>
-          <h2 id="event-title" className="section-title">{invitationConfig.event.title}</h2>
-        </div>
-
-        <div className="event-panel mt-10">
-          <dl className="event-details">
-            {eventDetails.map((detail) => (
-              <div className="event-detail" key={detail.label}>
-                <dt>
-                  <span className={`event-detail-icon event-detail-icon-${detail.icon}`} aria-hidden="true" />
-                  {detail.label}
-                </dt>
-                <dd>{detail.value ?? "A confirmar"}</dd>
-              </div>
-            ))}
-          </dl>
-          <Map location={eventLocation} />
-          <a
-            className={`directions-button${directionsUrl ? "" : " directions-button-disabled"}`}
-            href={directionsUrl}
-            target={directionsUrl ? "_blank" : undefined}
-            rel={directionsUrl ? "noreferrer" : undefined}
-            aria-label={`${invitationConfig.event.directionsLabel} a ${eventLocation.label}`}
-            aria-disabled={directionsUrl ? undefined : true}
-          >
-            {invitationConfig.event.directionsLabel}
-          </a>
+        <div className="event-layout">
+          <div className="event-information">
+            <div className="event-title-wrap">
+              <span aria-hidden="true" />
+              <h2 id="event-title" className="section-title">{invitationConfig.event.title}</h2>
+              <span aria-hidden="true" />
+            </div>
+            <dl className="event-details">
+              {eventDetails.map((detail) => (
+                <div className="event-detail" key={detail.label}>
+                  <dt>
+                    <span className={`event-detail-icon event-detail-icon-${detail.icon}`} aria-hidden="true" />
+                    {detail.label}
+                  </dt>
+                  <dd>{detail.value ?? "A confirmar"}</dd>
+                </div>
+              ))}
+            </dl>
+            <a
+              className={`directions-button${directionsUrl ? "" : " directions-button-disabled"}`}
+              href={directionsUrl || undefined}
+              target={directionsUrl ? "_blank" : undefined}
+              rel={directionsUrl ? "noreferrer" : undefined}
+              aria-label={`${invitationConfig.event.directionsLabel} a ${eventLocation.label}`}
+              aria-disabled={directionsUrl ? undefined : true}
+              tabIndex={directionsUrl ? undefined : -1}
+            >
+              {invitationConfig.event.directionsLabel}
+            </a>
+          </div>
+          <Map location={eventLocation} imageUrl={invitationConfig.event.mapImageUrl} />
         </div>
       </motion.div>
     </section>
