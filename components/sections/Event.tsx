@@ -12,8 +12,9 @@ type EventProps = {
 export default function Event({ data }: EventProps) {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = reduceMotion === false;
-  const eventDetails = data?.details ?? invitationConfig.event.details;
-  const eventLocation: MapLocation = data?.location ?? invitationConfig.event.location;
+  void data;
+  const eventDetails = invitationConfig.event.details;
+  const eventLocation: MapLocation = invitationConfig.event.location;
   const directionsUrl = invitationConfig.event.googleMapsUrl;
 
   return (
@@ -39,7 +40,7 @@ export default function Event({ data }: EventProps) {
                     <span className={`event-detail-icon event-detail-icon-${detail.icon}`} aria-hidden="true" />
                     {detail.label}
                   </dt>
-                  <dd>{detail.value ?? "A confirmar"}</dd>
+                  <dd>{detail.value}</dd>
                 </div>
               ))}
             </dl>

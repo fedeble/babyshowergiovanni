@@ -28,16 +28,12 @@ export default function Baby() {
             <p>{invitationConfig.baby.closing}</p>
           </div>
 
-          <div className="baby-photo-wrap">
-            <div
-              className="baby-photo"
-              role="img"
-              aria-label="Fotografía de Giovanni"
-              style={{ backgroundImage: `url(${invitationConfig.baby.imageUrl})` }}
-            />
-            <span className="baby-tape" aria-hidden="true" />
-            <span className="baby-sprig" aria-hidden="true" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Image is displayed at its original aspect ratio from the configured public Storage URL. */}
+          <img
+            className="baby-photo"
+            src={invitationConfig.baby.imageUrl}
+            alt="Fotografía de Giovanni"
+          />
         </div>
       </motion.div>
     </section>

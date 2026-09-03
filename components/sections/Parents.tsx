@@ -17,17 +17,12 @@ export default function Parents() {
         transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
         <div className="parents-layout">
-          <div className="parents-photo-wrap">
-            <div
-              className="parents-photo"
-              role="img"
-              aria-label="Fotografía de Jesús y Celeste"
-              style={{ backgroundImage: `url(${invitationConfig.parents.imageUrl})` }}
-            />
-            <span className="parents-tape" aria-hidden="true" />
-            <span className="parents-sprig" aria-hidden="true" />
-            <span className="parents-heart" aria-hidden="true" />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Image is displayed at its original aspect ratio from the configured public Storage URL. */}
+          <img
+            className="parents-photo"
+            src={invitationConfig.parents.imageUrl}
+            alt="Fotografía de Jesús y Celeste"
+          />
 
           <div className="parents-copy">
             <h2 id="parents-title" className="section-title">{invitationConfig.parents.title}</h2>

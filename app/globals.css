@@ -178,156 +178,12 @@ iframe {
   margin-inline: auto;
 }
 
-.parents-photo-wrap {
-  position: relative;
-  width: min(100%, 26rem);
-  margin-inline: auto;
-  padding: 0.65rem;
-  background: var(--ivory);
-  box-shadow: 0 1rem 2.5rem rgb(49 66 58 / 0.14);
-  transform: rotate(-2deg);
-}
-
-.baby-photo-wrap {
-  position: relative;
-  width: min(100%, 26rem);
-  margin-inline: auto;
-  padding: 0.65rem;
-  background: var(--ivory);
-  box-shadow: 0 1rem 2.5rem rgb(49 66 58 / 0.14);
-  transform: rotate(2deg);
-}
-
-.parents-photo {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
-  background-position: center;
-  background-size: cover;
-}
-
+.parents-photo,
 .baby-photo {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
-  background-position: center;
-  background-size: cover;
-}
-
-.parents-tape {
-  position: absolute;
-  top: -0.75rem;
-  left: 50%;
-  width: 5rem;
-  height: 1.4rem;
-  background: rgb(215 194 157 / 0.82);
-  transform: translateX(-50%) rotate(2deg);
-}
-
-.baby-tape {
-  position: absolute;
-  top: -0.75rem;
-  left: 50%;
-  width: 5rem;
-  height: 1.4rem;
-  background: rgb(215 194 157 / 0.82);
-  transform: translateX(-50%) rotate(-2deg);
-}
-
-.parents-sprig {
-  position: absolute;
-  bottom: -1rem;
-  left: -0.7rem;
-  width: 4rem;
-  height: 2.7rem;
-  border-top: 1px solid var(--sage-deep);
-  border-radius: 50%;
-  transform: rotate(-33deg);
-}
-
-.parents-sprig::before,
-.parents-sprig::after {
-  position: absolute;
-  width: 0.5rem;
-  height: 0.85rem;
-  border: 1px solid var(--sage-deep);
-  border-radius: 100% 0;
-  content: "";
-}
-
-.parents-sprig::before {
-  top: -0.2rem;
-  left: 1.1rem;
-  transform: rotate(25deg);
-}
-
-.parents-sprig::after {
-  top: 0.6rem;
-  left: 2.25rem;
-  transform: rotate(76deg);
-}
-
-.baby-sprig {
-  position: absolute;
-  right: -0.7rem;
-  bottom: -1rem;
-  width: 4rem;
-  height: 2.7rem;
-  border-top: 1px solid var(--sage-deep);
-  border-radius: 50%;
-  transform: scaleX(-1) rotate(-33deg);
-}
-
-.baby-sprig::before,
-.baby-sprig::after {
-  position: absolute;
-  width: 0.5rem;
-  height: 0.85rem;
-  border: 1px solid var(--sage-deep);
-  border-radius: 100% 0;
-  content: "";
-}
-
-.baby-sprig::before {
-  top: -0.2rem;
-  left: 1.1rem;
-  transform: rotate(25deg);
-}
-
-.baby-sprig::after {
-  top: 0.6rem;
-  left: 2.25rem;
-  transform: rotate(76deg);
-}
-
-.parents-heart {
-  position: absolute;
-  right: -0.2rem;
-  bottom: -0.45rem;
-  width: 0.65rem;
-  height: 0.65rem;
-  background: var(--gold);
-  transform: rotate(45deg);
-}
-
-.parents-heart::before,
-.parents-heart::after {
-  position: absolute;
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-  background: var(--gold);
-  content: "";
-}
-
-.parents-heart::before {
-  top: -0.325rem;
-  left: 0;
-}
-
-.parents-heart::after {
-  top: 0;
-  left: -0.325rem;
+  display: block;
+  width: min(100%, 26rem);
+  height: auto;
+  margin-inline: auto;
 }
 
 .parents-copy {
@@ -578,6 +434,7 @@ iframe {
 
 .event-detail dd {
   overflow-wrap: anywhere;
+  white-space: pre-line;
   margin: 0.5rem 0 0 1.35rem;
   color: var(--foreground);
   font-size: 0.95rem;
@@ -1018,8 +875,8 @@ iframe {
     gap: clamp(3rem, 7vw, 6rem);
   }
 
-  .parents-photo-wrap,
-  .baby-photo-wrap {
+  .parents-photo,
+  .baby-photo {
     width: min(100%, 30rem);
   }
 

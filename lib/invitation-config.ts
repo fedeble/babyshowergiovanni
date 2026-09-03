@@ -49,15 +49,15 @@ export const invitationConfig = {
     details: [
       { label: "Fecha", value: "Sábado 19 de septiembre de 2026", icon: "calendar" },
       { label: "Hora", value: "15:00 hs", icon: "clock" },
-      { label: "Lugar", value: "Albert Einstein 7780", icon: "place" },
+      { label: "Lugar", value: "Albert Einstein 7795, esquina San Cayetano\nDel Viso, Pilar, Buenos Aires", icon: "place" },
     ] satisfies InvitationEventDetail[],
-    directionsLabel: "Cómo llegar",
+    directionsLabel: "Ver en el mapa",
     googleMapsUrl: "https://maps.app.goo.gl/RrcTa6ANHCEikXt49",
     mapImageUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/invitation/map/ubicacion.png`,
     location: {
       latitude: -34.44681074662121,
       longitude: -58.802460437204395,
-      label: "Albert Einstein 7780",
+      label: "Albert Einstein 7795, esquina San Cayetano, Del Viso, Pilar, Buenos Aires",
     } satisfies InvitationLocation,
   },
   gifts: {
