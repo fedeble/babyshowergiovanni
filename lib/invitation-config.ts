@@ -70,6 +70,17 @@ export const invitationConfig = {
     title: "Regalos",
     introduction: "Cada detalle acompaña con cariño la llegada de Giovanni.",
     actionLabel: "Quiero regalarlo",
+    reservation: {
+      guestNameLabel: "Tu nombre",
+      quantityLabel: "Cantidad",
+      submitLabel: "Confirmar regalo",
+      submittingLabel: "Reservando...",
+      successMessage: "¡Gracias! Tu regalo quedó reservado.",
+      invalidNameMessage: "Ingresá un nombre de entre 2 y 120 caracteres.",
+      invalidQuantityMessage: "Elegí una cantidad disponible válida.",
+      stockErrorMessage: "Esa cantidad ya no está disponible.",
+      genericErrorMessage: "No pudimos completar la reserva. Intentá nuevamente.",
+    },
     items: [
     {
       id: "gift-blanket",

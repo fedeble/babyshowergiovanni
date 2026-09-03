@@ -3,15 +3,20 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Map, { type MapLocation } from "./Map";
 import { invitationConfig } from "@/lib/invitation-config";
+import type { EventData } from "@/lib/supabase/invitation-data";
 
-const eventLocation: MapLocation = invitationConfig.event.location;
-const directionsUrl = eventLocation.latitude !== null && eventLocation.longitude !== null
-  ? `https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`
-  : undefined;
+type EventProps = {
+  data?: EventData;
+};
 
-export default function Event() {
+export default function Event({ data }: EventProps) {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = reduceMotion === false;
+  const eventDetails = data?.details ?? invitationConfig.event.details;
+  const eventLocation: MapLocation = data?.location ?? invitationConfig.event.location;
+  const directionsUrl = eventLocation.latitude !== null && eventLocation.longitude !== null
+    ? `https://www.google.com/maps/dir/?api=1&destination=${eventLocation.latitude},${eventLocation.longitude}`
+    : undefined;
 
   return (
     <section className="section-shell section-sage" aria-labelledby="event-title">
@@ -29,7 +34,7 @@ export default function Event() {
 
         <div className="event-panel mt-10">
           <dl className="event-details">
-            {invitationConfig.event.details.map((detail) => (
+            {eventDetails.map((detail) => (
               <div className="event-detail" key={detail.label}>
                 <dt>
                   <span className={`event-detail-icon event-detail-icon-${detail.icon}`} aria-hidden="true" />

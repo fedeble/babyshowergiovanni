@@ -635,6 +635,86 @@ iframe {
   color: var(--ivory);
 }
 
+.gift-button:disabled,
+.gift-submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.gift-button:disabled:hover {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.gift-reservation-form {
+  display: grid;
+  gap: 0.9rem;
+  overflow: hidden;
+}
+
+.gift-field:first-child {
+  margin-top: 1.25rem;
+}
+
+.gift-field {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--sage-deep);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gift-field input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.15rem;
+  outline: none;
+  background: var(--ivory);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.gift-field input:focus-visible {
+  border-color: var(--sage-deep);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sage) 70%, transparent);
+}
+
+.gift-submit-button {
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--sage-deep);
+  border-radius: 0.15rem;
+  background: var(--sage-deep);
+  color: var(--ivory);
+  cursor: pointer;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.gift-reservation-message {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.gift-reservation-message-error {
+  color: #8a5548;
+}
+
+.gift-reservation-message-success {
+  color: var(--sage-deep);
+  font-weight: 700;
+}
+
 .gift-button:active,
 .directions-button:active {
   transform: translateY(1px);
