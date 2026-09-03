@@ -14,6 +14,7 @@ export type Database = {
           longitude: number | null;
           welcome_message: string | null;
           cover_image: string | null;
+          is_public: boolean;
           created_at: string;
         };
         Insert: {
@@ -28,6 +29,7 @@ export type Database = {
           longitude?: number | null;
           welcome_message?: string | null;
           cover_image?: string | null;
+          is_public?: boolean;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["events"]["Insert"]>;
@@ -75,6 +77,20 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["gift_reservations"]["Insert"]>;
         Relationships: [];
       };
+      event_admins: {
+        Row: {
+          user_id: string;
+          event_id: string;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          event_id: string;
+          created_at?: string;
+        };
+        Update: never;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -85,6 +101,20 @@ export type Database = {
           p_requested_quantity: number;
         };
         Returns: string;
+      };
+      cancel_gift_reservation: {
+        Args: {
+          p_reservation_id: string;
+        };
+        Returns: string;
+      };
+      is_event_admin: {
+        Args: { p_event_id: string };
+        Returns: boolean;
+      };
+      is_gift_admin: {
+        Args: { p_gift_id: string };
+        Returns: boolean;
       };
     };
     Enums: Record<string, never>;

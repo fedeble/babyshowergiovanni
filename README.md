@@ -36,6 +36,24 @@ Requisitos en Supabase:
 - Invocar `reserve_gift` con `p_gift_id`, `p_guest_name` y `p_requested_quantity`.
 - No otorgar permisos de escritura directa sobre las tablas a `anon` ni `authenticated`; las reservas públicas deben pasar exclusivamente por la RPC.
 
+Después de aplicar `20260903060000_security_hardening.sql`, asigná cada cuenta administrativa a su evento desde el SQL Editor:
+
+```sql
+insert into public.event_admins (user_id, event_id)
+values ('UUID_DEL_USUARIO_AUTH', 'UUID_DEL_EVENTO');
+```
+
+Sin esta asignación, una cuenta autenticada no puede leer ni modificar datos administrativos.
+
+Correcciones de seguridad de `20260903060000_security_hardening.sql`:
+
+- limita la lectura pública al único evento marcado como público;
+- vincula cada administrador con su evento mediante `event_admins`;
+- restringe CRUD, reservas y Realtime al evento asignado;
+- mantiene `reserved_quantity` fuera de escrituras directas;
+- valida ownership dentro de la RPC de anulación;
+- restringe imágenes administrativas a URLs HTTPS y limita textos almacenados.
+
 ### Prueba funcional de reservas
 
 Con las tres variables de `.env.example` cargadas en el entorno, ejecutá `npm run test:reservations`. La service role se usa exclusivamente para crear y limpiar datos temporales de prueba; nunca debe exponerse al navegador.
