@@ -12,6 +12,10 @@ export type Gift = InvitationGift;
 type GiftCardProps = {
   canReserve: boolean;
   gift: Gift;
+  reservation?: {
+    id: string;
+    active: boolean;
+  };
   onReserve: (
     giftId: string,
     guestName: string,
@@ -20,10 +24,10 @@ type GiftCardProps = {
 };
 
 export type ReservationResult =
-  | { success: true }
+  | { success: true; reservationId: string }
   | { success: false; reason: "invalid" | "stock" | "generic" };
 
-export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps) {
+export default function GiftCard({ canReserve, gift, reservation, onReserve }: GiftCardProps) {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = reduceMotion === false;
   const submittingRef = useRef(false);
@@ -38,6 +42,9 @@ export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps)
     : "No disponible";
   const isAvailable = canReserve && gift.isAvailable && gift.availableQuantity !== null && gift.availableQuantity > 0;
   const reservationCopy = invitationConfig.gifts.reservation;
+  const visibleMessage = reservation && !reservation.active && message?.type === "success"
+    ? undefined
+    : message;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -186,9 +193,9 @@ export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps)
             </motion.form>
           )}
         </AnimatePresence>
-        {message && (
-          <p className={`gift-reservation-message gift-reservation-message-${message.type}`} role={message.type === "error" ? "alert" : "status"}>
-            {message.text}
+        {visibleMessage && (
+          <p className={`gift-reservation-message gift-reservation-message-${visibleMessage.type}`} role={visibleMessage.type === "error" ? "alert" : "status"}>
+            {visibleMessage.text}
           </p>
         )}
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import GiftCard, { type ReservationResult } from "./GiftCard";
 import { invitationConfig, type InvitationGift } from "@/lib/invitation-config";
@@ -25,11 +25,68 @@ type GiftStatusUpdate = {
   is_available: boolean;
 };
 
+type LocalReservation = {
+  id: string;
+  active: boolean;
+};
+
 export default function GiftList({ eventId, gifts }: GiftListProps) {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = reduceMotion === false;
   const initialGifts = gifts?.length ? gifts : invitationConfig.gifts.items;
   const [giftItems, setGiftItems] = useState<readonly InvitationGift[]>(initialGifts);
+  const [localReservations, setLocalReservations] = useState<Record<string, LocalReservation>>({});
+  const localReservationsRef = useRef<Record<string, LocalReservation>>({});
+
+  function updateLocalReservation(giftId: string, reservation: LocalReservation) {
+    const nextReservations = {
+      ...localReservationsRef.current,
+      [giftId]: reservation,
+    };
+    localReservationsRef.current = nextReservations;
+    setLocalReservations(nextReservations);
+  }
+
+  async function verifyLocalReservations(supabase: ReturnType<typeof createBrowserSupabaseClient>) {
+    const trackedReservations = Object.entries(localReservationsRef.current).filter(
+      ([, reservation]) => reservation.active,
+    );
+
+    if (!trackedReservations.length) {
+      return;
+    }
+
+    const results = await Promise.all(
+      trackedReservations.map(async ([giftId, reservation]) => {
+        const { data, error } = await supabase.rpc("gift_reservation_exists", {
+          p_reservation_id: reservation.id,
+        });
+
+        return { giftId, reservationId: reservation.id, exists: error ? null : data };
+      }),
+    );
+
+    const nextReservations = { ...localReservationsRef.current };
+    let changed = false;
+
+    for (const result of results) {
+      if (
+        result.exists === false &&
+        nextReservations[result.giftId]?.id === result.reservationId
+      ) {
+        nextReservations[result.giftId] = {
+          id: result.reservationId,
+          active: false,
+        };
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      localReservationsRef.current = nextReservations;
+      setLocalReservations(nextReservations);
+    }
+  }
 
   useEffect(() => {
     if (!eventId) {
@@ -66,6 +123,8 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
               ),
             );
           });
+
+          void verifyLocalReservations(supabase);
         },
       )
       .subscribe();
@@ -116,6 +175,8 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
           }),
         );
       });
+
+      await verifyLocalReservations(supabase);
     }
 
     const intervalId = window.setInterval(() => {
@@ -150,14 +211,15 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
       ),
     );
 
-    const { error } = await supabase.rpc("reserve_gift", {
+    const { data: reservationId, error } = await supabase.rpc("reserve_gift", {
       p_gift_id: giftId,
       p_guest_name: guestName,
       p_requested_quantity: requestedQuantity,
     });
 
-    if (!error) {
-      return { success: true };
+    if (!error && typeof reservationId === "string") {
+      updateLocalReservation(giftId, { id: reservationId, active: true });
+      return { success: true, reservationId };
     }
 
     const { data: currentGift } = await supabase
@@ -210,7 +272,11 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
   const sortedGiftItems = giftItems
     .map((gift, index) => ({ gift, index }))
     .sort((left, right) => {
-      const availabilityOrder = Number(right.gift.isAvailable) - Number(left.gift.isAvailable);
+      const rightIsAvailable =
+        right.gift.isAvailable === true && (right.gift.availableQuantity ?? 0) > 0;
+      const leftIsAvailable =
+        left.gift.isAvailable === true && (left.gift.availableQuantity ?? 0) > 0;
+      const availabilityOrder = Number(rightIsAvailable) - Number(leftIsAvailable);
       return availabilityOrder || left.index - right.index;
     })
     .map(({ gift }) => gift);
@@ -235,6 +301,7 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
               canReserve={Boolean(eventId)}
               gift={gift}
               key={gift.id}
+              reservation={localReservations[gift.id]}
               onReserve={reserveGift}
             />
           ))}

@@ -104,6 +104,10 @@ export type Database = {
         };
         Returns: string;
       };
+      gift_reservation_exists: {
+        Args: { p_reservation_id: string };
+        Returns: boolean;
+      };
       cancel_gift_reservation: {
         Args: {
           p_reservation_id: string;
