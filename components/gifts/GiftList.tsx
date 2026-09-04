@@ -37,6 +37,17 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
   const [giftItems, setGiftItems] = useState<readonly InvitationGift[]>(initialGifts);
   const [localReservations, setLocalReservations] = useState<Record<string, LocalReservation>>({});
   const localReservationsRef = useRef<Record<string, LocalReservation>>({});
+  const sortedGiftItems = giftItems
+    .map((gift, index) => ({ gift, index }))
+    .sort((left, right) => {
+      const rightIsAvailable =
+        right.gift.isAvailable === true && (right.gift.availableQuantity ?? 0) > 0;
+      const leftIsAvailable =
+        left.gift.isAvailable === true && (left.gift.availableQuantity ?? 0) > 0;
+      const availabilityOrder = Number(rightIsAvailable) - Number(leftIsAvailable);
+      return availabilityOrder || left.index - right.index;
+    })
+    .map(({ gift }) => gift);
 
   function updateLocalReservation(giftId: string, reservation: LocalReservation) {
     const nextReservations = {
@@ -269,32 +280,21 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
     return { success: false, reason: "generic" };
   }
 
-  const sortedGiftItems = giftItems
-    .map((gift, index) => ({ gift, index }))
-    .sort((left, right) => {
-      const rightIsAvailable =
-        right.gift.isAvailable === true && (right.gift.availableQuantity ?? 0) > 0;
-      const leftIsAvailable =
-        left.gift.isAvailable === true && (left.gift.availableQuantity ?? 0) > 0;
-      const availabilityOrder = Number(rightIsAvailable) - Number(leftIsAvailable);
-      return availabilityOrder || left.index - right.index;
-    })
-    .map(({ gift }) => gift);
-
   return (
     <section className="section-shell section-light" aria-labelledby="gifts-title">
-      <motion.div
-        className="content-container section-space gifts-content"
-        initial={shouldAnimate ? { opacity: 0, y: 28 } : false}
-        whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-        viewport={{ once: true, amount: 0.12 }}
-        transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
-      >
+      <div className="content-container section-space gifts-content">
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 28 } : false}
+          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
+        >
         <div className="text-center">
           <p className="eyebrow">{invitationConfig.gifts.sectionLabel}</p>
           <h2 id="gifts-title" className="section-title font-section-title">{invitationConfig.gifts.title}</h2>
           <p className="gifts-introduction">{invitationConfig.gifts.introduction}</p>
         </div>
+        </motion.div>
         <div className="gift-list mt-10">
           {sortedGiftItems.map((gift) => (
             <GiftCard
@@ -306,7 +306,7 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
             />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
