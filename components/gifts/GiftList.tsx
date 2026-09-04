@@ -18,6 +18,13 @@ type RealtimeGift = {
   reserved_quantity: number;
 };
 
+type GiftStatusUpdate = {
+  id: string;
+  quantity: number;
+  reserved_quantity: number;
+  is_available: boolean;
+};
+
 export default function GiftList({ eventId, gifts }: GiftListProps) {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = reduceMotion === false;
@@ -65,6 +72,59 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
 
     return () => {
       void supabase.removeChannel(channel);
+    };
+  }, [eventId]);
+
+  useEffect(() => {
+    if (!eventId) {
+      return;
+    }
+
+    const currentEventId = eventId;
+    let isActive = true;
+    const supabase = createBrowserSupabaseClient();
+
+    async function refreshGiftStatuses() {
+      const { data, error } = await supabase
+        .from("gifts")
+        .select("id,quantity,reserved_quantity,is_available")
+        .eq("event_id", currentEventId)
+        .returns<GiftStatusUpdate[]>();
+
+      if (!isActive || error || !data) {
+        return;
+      }
+
+      startTransition(() => {
+        setGiftItems((currentGifts) =>
+          currentGifts.map((gift) => {
+            const updatedGift = data.find((candidate) => candidate.id === gift.id);
+
+            if (!updatedGift) {
+              return gift;
+            }
+
+            return {
+              ...gift,
+              availableQuantity: Math.max(
+                0,
+                updatedGift.quantity - updatedGift.reserved_quantity,
+              ),
+              isAvailable: updatedGift.is_available,
+              totalQuantity: updatedGift.quantity,
+            };
+          }),
+        );
+      });
+    }
+
+    const intervalId = window.setInterval(() => {
+      void refreshGiftStatuses();
+    }, 5000);
+
+    return () => {
+      isActive = false;
+      window.clearInterval(intervalId);
     };
   }, [eventId]);
 
@@ -147,6 +207,14 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
     return { success: false, reason: "generic" };
   }
 
+  const sortedGiftItems = giftItems
+    .map((gift, index) => ({ gift, index }))
+    .sort((left, right) => {
+      const availabilityOrder = Number(right.gift.isAvailable) - Number(left.gift.isAvailable);
+      return availabilityOrder || left.index - right.index;
+    })
+    .map(({ gift }) => gift);
+
   return (
     <section className="section-shell section-light" aria-labelledby="gifts-title">
       <motion.div
@@ -162,7 +230,7 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
           <p className="gifts-introduction">{invitationConfig.gifts.introduction}</p>
         </div>
         <div className="gift-list mt-10">
-          {giftItems.map((gift) => (
+          {sortedGiftItems.map((gift) => (
             <GiftCard
               canReserve={Boolean(eventId)}
               gift={gift}

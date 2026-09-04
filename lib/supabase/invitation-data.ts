@@ -75,7 +75,7 @@ function mapGifts(gifts: GiftRow[]): InvitationGift[] {
     id: gift.id,
     name: gift.name,
     description: gift.description ?? "",
-    imageUrl: gift.image ?? "",
+    image: gift.image,
     totalQuantity: gift.quantity,
     availableQuantity: Math.max(0, gift.quantity - gift.reserved_quantity),
     isAvailable: gift.is_available,

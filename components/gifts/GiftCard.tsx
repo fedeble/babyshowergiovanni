@@ -2,6 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { invitationConfig, type InvitationGift } from "@/lib/invitation-config";
 
 export type GiftStatus = "Disponible" | "No disponible";
@@ -30,6 +31,7 @@ export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [quantity, setQuantity] = useState("1");
+  const [imageError, setImageError] = useState(false);
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string }>();
   const status: GiftStatus = gift.isAvailable && gift.availableQuantity !== null && gift.availableQuantity > 0
     ? "Disponible"
@@ -98,8 +100,20 @@ export default function GiftCard({ canReserve, gift, onReserve }: GiftCardProps)
         className="gift-image"
         role="img"
         aria-label={`Imagen de ${gift.name}`}
-        style={{ backgroundImage: `url(${gift.imageUrl})` }}
       >
+        {gift.image !== null && gift.image.trim() !== "" && !imageError ? (
+          <Image
+            className="gift-image-source"
+            src={gift.image}
+            alt=""
+            fill
+            sizes="(min-width: 900px) 30vw, (min-width: 640px) 45vw, 100vw"
+            unoptimized
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <span className="gift-image-placeholder" aria-hidden="true">♡</span>
+        )}
         <span className={`gift-status gift-status-${status === "Disponible" ? "available" : "unavailable"}`}>
           <span className="gift-status-heart" aria-hidden="true">♥</span>
           {` ${status}`}
