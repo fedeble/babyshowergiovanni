@@ -18,7 +18,7 @@ export default function Baby() {
       >
         <div className="baby-layout">
           <div className="baby-copy">
-            <h2 id="baby-title" className="section-title">{invitationConfig.baby.title}</h2>
+            <h2 id="baby-title" className="section-title font-section-title">{invitationConfig.baby.title}</h2>
             <div className="baby-ornament" aria-hidden="true">
               <span />
               <i />

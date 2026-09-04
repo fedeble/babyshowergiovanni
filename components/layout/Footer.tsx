@@ -17,6 +17,13 @@ export default function Footer() {
         transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : { duration: 0 }}
       >
         {invitationConfig.footer.reservationNote}
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
       </motion.div>
       <motion.div
         className="footer-content"
@@ -29,7 +36,7 @@ export default function Footer() {
           // eslint-disable-next-line @next/next/no-img-element -- Decorative image is served from the configured public Storage URL.
           <img className="footer-teddy" src={invitationConfig.footer.teddyImageUrl} alt="" />
         )}
-        <p id="footer-title" className="footer-message">{invitationConfig.footer.message}</p>
+        <p id="footer-title" className="footer-message font-section-title">{invitationConfig.footer.message}</p>
         <span className="footer-heart" aria-hidden="true" />
       </motion.div>
     </footer>

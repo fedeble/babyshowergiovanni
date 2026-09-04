@@ -158,7 +158,7 @@ export default function GiftList({ eventId, gifts }: GiftListProps) {
       >
         <div className="text-center">
           <p className="eyebrow">{invitationConfig.gifts.sectionLabel}</p>
-          <h2 id="gifts-title" className="section-title">{invitationConfig.gifts.title}</h2>
+          <h2 id="gifts-title" className="section-title font-section-title">{invitationConfig.gifts.title}</h2>
           <p className="gifts-introduction">{invitationConfig.gifts.introduction}</p>
         </div>
         <div className="gift-list mt-10">

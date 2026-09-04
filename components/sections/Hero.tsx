@@ -20,14 +20,16 @@ export default function Hero() {
         animate={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
         transition={transition}
       >
-        <p className="eyebrow hero-eyebrow">{invitationConfig.title}</p>
-        <h1 id="hero-title" className="display-title hero-name">{invitationConfig.babyName}</h1>
-        <div className="hero-ornament" aria-hidden="true">
-          <span />
-          <i />
-          <span />
+        <div className="hero-copy">
+          <p className="eyebrow hero-eyebrow font-hero-title">{invitationConfig.title}</p>
+          <h1 id="hero-title" className="display-title hero-name font-hero-title">{invitationConfig.babyName}</h1>
+          <div className="hero-ornament" aria-hidden="true">
+            <span />
+            <i />
+            <span />
+          </div>
+          <p className="hero-welcome">{invitationConfig.welcomeText}</p>
         </div>
-        <p className="hero-welcome">{invitationConfig.welcomeText}</p>
       </motion.div>
     </section>
   );

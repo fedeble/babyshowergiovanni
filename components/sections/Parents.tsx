@@ -25,7 +25,7 @@ export default function Parents() {
           />
 
           <div className="parents-copy">
-            <h2 id="parents-title" className="section-title">{invitationConfig.parents.title}</h2>
+            <h2 id="parents-title" className="section-title font-section-title">{invitationConfig.parents.title}</h2>
             <div className="parents-ornament" aria-hidden="true">
               <span />
               <i />

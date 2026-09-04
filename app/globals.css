@@ -75,6 +75,21 @@ iframe {
   text-align: left;
 }
 
+.hero-copy {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-copy .hero-eyebrow,
+.hero-copy .hero-name {
+  align-self: flex-start;
+  text-align: left;
+}
+
 .hero-eyebrow,
 .hero-content .display-title {
   color: var(--foreground);
@@ -83,7 +98,7 @@ iframe {
 
 .hero-eyebrow {
   font-family: var(--font-display), serif;
-  font-size: clamp(2.2rem, 10vw, 3.4rem);
+  font-size: clamp(2.5rem, 11vw, 3.8rem);
   font-weight: 500;
   letter-spacing: 0;
   line-height: 0.9;
@@ -139,12 +154,27 @@ iframe {
 }
 
 .hero-welcome {
+  position: relative;
+  isolation: isolate;
   max-width: 19rem;
   margin-top: 1.35rem;
   color: var(--foreground);
   font-size: 0.88rem;
   line-height: 1.7;
   text-shadow: 0 1px 0 rgb(252 250 246 / 0.42);
+}
+
+.hero-welcome::before {
+  position: absolute;
+  z-index: -1;
+  inset: -1.7rem -3rem;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(248 241 226 / 0.7) 0%,
+    rgb(248 241 226 / 0.38) 46%,
+    rgb(248 241 226 / 0) 76%
+  );
+  content: "";
 }
 
 .section-light {
@@ -548,6 +578,20 @@ iframe {
   line-height: 0.95;
 }
 
+.font-hero-title {
+  font-family: var(--font-hero-title), cursive;
+}
+
+.hero-eyebrow.font-hero-title {
+  font-size: clamp(2.25rem, 10vw, 3.4rem);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.font-section-title {
+  font-family: var(--font-section-title), cursive;
+}
+
 .display-copy {
   color: var(--foreground);
   font-size: clamp(2rem, 7vw, 3.5rem);
@@ -594,7 +638,7 @@ iframe {
 }
 
 .footer-reservation-note {
-  padding: 2.5rem 1.25rem 2rem;
+  padding: 0rem 1.25rem 2rem;
   background: var(--ivory);
   color: var(--sage-deep);
   font-size: 0.78rem;
@@ -616,7 +660,6 @@ iframe {
   max-width: 24rem;
   margin: 0;
   color: var(--ivory);
-  font-family: var(--font-display), serif;
   font-size: clamp(2.35rem, 9vw, 4rem);
   font-weight: 500;
   line-height: 1;
@@ -671,34 +714,47 @@ iframe {
 }
 
 .gift-card {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  border-radius: 0.25rem;
-  border: 1px solid var(--line);
-  background: var(--cream);
-  box-shadow: var(--shadow-soft);
+  border: 1px solid color-mix(in srgb, var(--gold) 32%, var(--line));
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--cream) 88%, var(--ivory));
+  box-shadow: 0 0.7rem 1.8rem rgb(49 66 58 / 0.07);
   transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
 .gift-card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 1.25rem 3rem rgb(49 66 58 / 0.12);
+  box-shadow: 0 1rem 2.2rem rgb(49 66 58 / 0.1);
 }
 
 .gift-image {
+  position: relative;
   aspect-ratio: 16 / 10;
+  flex-shrink: 0;
   background-position: center;
   background-size: cover;
 }
 
+.gift-image .gift-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
 .gift-card-body {
-  padding: 1.25rem;
+  padding: 1.35rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .gift-card-heading {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .gift-name {
@@ -712,10 +768,12 @@ iframe {
 }
 
 .gift-status {
-  max-width: 8rem;
+  max-width: 8.5rem;
   flex-shrink: 0;
-  padding-top: 0.2rem;
-  color: var(--sage-deep);
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: var(--sage-deep);
+  color: var(--ivory);
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -724,12 +782,19 @@ iframe {
   text-transform: uppercase;
 }
 
-.gift-status-agotado {
-  color: var(--gold);
+.gift-status-heart {
+  margin-right: 0.3rem;
+  color: var(--ivory);
+  font-size: 0.85rem;
 }
 
-.gift-status-a-confirmar {
-  color: var(--gold);
+.gift-status-unavailable {
+  background: color-mix(in srgb, var(--line) 72%, var(--sage-deep));
+  color: var(--foreground);
+}
+
+.gift-status-unavailable .gift-status-heart {
+  color: var(--foreground);
 }
 
 .gift-description {
@@ -740,39 +805,36 @@ iframe {
   line-height: 1.7;
 }
 
-.gift-quantity-row {
+.gift-decoration {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  color: var(--foreground);
-  font-size: 0.68rem;
-  font-weight: 700;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
 }
 
-.gift-progress-track {
-  height: 0.35rem;
-  margin-top: 0.6rem;
-  overflow: hidden;
-  background: var(--ivory);
+.gift-decoration span {
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--gold) 48%, var(--line));
 }
 
-.gift-progress-bar {
-  height: 100%;
-  background: var(--gold);
-  transition: width 300ms ease;
+.gift-decoration i {
+  color: var(--gold);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1;
 }
 
 .gift-button {
   width: 100%;
   min-height: 3rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--sage-deep);
-  border-radius: 0.15rem;
-  background: transparent;
-  color: var(--foreground);
+  border: 1px solid color-mix(in srgb, var(--sage-deep) 82%, var(--foreground));
+  border-radius: 0.45rem;
+  background: var(--sage-deep);
+  color: var(--ivory);
   cursor: pointer;
   font-size: 0.68rem;
   font-weight: 700;
@@ -783,7 +845,7 @@ iframe {
 
 .gift-button:hover,
 .gift-button:focus-visible {
-  background: var(--sage-deep);
+  background: var(--foreground);
   color: var(--ivory);
 }
 
@@ -794,8 +856,8 @@ iframe {
 }
 
 .gift-button:disabled:hover {
-  background: transparent;
-  color: var(--foreground);
+  background: var(--sage-deep);
+  color: var(--ivory);
 }
 
 .gift-reservation-form {
@@ -884,6 +946,22 @@ iframe {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero-welcome {
+    text-shadow: 0 1px 2px rgb(252 250 246 / 0.78);
+  }
+
+  .hero-welcome::before {
+    inset: -2.5rem -4rem;
+    background: radial-gradient(
+      ellipse at center,
+      rgb(248 241 226 / 0.96) 0%,
+      rgb(248 241 226 / 0.68) 48%,
+      rgb(248 241 226 / 0) 82%
+    );
   }
 }
 

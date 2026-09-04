@@ -30,7 +30,7 @@ export default function Event({ data }: EventProps) {
           <div className="event-information">
             <div className="event-title-wrap">
               <span aria-hidden="true" />
-              <h2 id="event-title" className="section-title">{invitationConfig.event.title}</h2>
+              <h2 id="event-title" className="section-title font-section-title">{invitationConfig.event.title}</h2>
               <span aria-hidden="true" />
             </div>
             <dl className="event-details">
